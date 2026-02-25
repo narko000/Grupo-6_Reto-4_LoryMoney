@@ -13,7 +13,7 @@
       color: #333;
     }
 
-    /* NAV */
+    /* navegador */
     nav {
       background: #1a7a3c;
       padding: 15px 30px;
@@ -36,7 +36,7 @@
 
     nav a:hover { text-decoration: underline; }
 
-    /* HERO */
+    /* hero */
     .hero {
       background: #2ea855;
       color: white;
@@ -68,7 +68,7 @@
 
     .hero a:hover { background: #e0ffe0; }
 
-    /* SECCIONES */
+    /* secciones */
     section {
       max-width: 900px;
       margin: 0 auto;
@@ -90,7 +90,7 @@
       margin-bottom: 15px;
     }
 
-    /* SEPARADOR */
+    /* separador */
     .divider {
       border: none;
       border-top: 2px solid #ddd;
@@ -98,7 +98,7 @@
       margin: 0 auto;
     }
 
-    /* CARDS */
+    /* cartas (apartados por bloquecitos) */
     .cards {
       display: flex;
       gap: 20px;
@@ -120,7 +120,7 @@
     .card h3 { color: #1a7a3c; margin-bottom: 6px; }
     .card p { font-size: 14px; color: #666; }
 
-    /* DEMO TABLE */
+    /* tabla demo */
     .demo-box {
       background: white;
       border: 1px solid #ddd;
@@ -167,7 +167,7 @@
     .amarillo { background: #fff3cd; color: #856404; }
     .rojo { background: #f8d7da; color: #721c24; }
 
-    /* FOOTER */
+    /* footer */
     footer {
       background: #333;
       color: #aaa;
@@ -179,7 +179,7 @@
 </head>
 <body>
 
-<!-- NAV -->
+<!-- navegador -->
 <nav>
   <h1>🌿 ServidorVerde</h1>
   <div>
@@ -189,35 +189,31 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- hero -->
+
 <div class="hero">
-  <h2>Sostenibilidad en centros de datos</h2>
-  <p>Medimos en tiempo real el consumo, temperatura y emisiones de tus servidores para que tomes mejores decisiones.</p>
-  <a href="#demo">Ver demo ↓</a>
+  <h2>ServidorVerde</h2>
+  <p>Sostenibilidad en centros de datos.</p>
+  <a href="#demo">Demo</a>
 </div>
 
-<!-- QUIÉNES SOMOS -->
+<!-- quienes somos -->
 <section id="quienes">
   <h2>👥 Quiénes somos</h2>
   <p>
-    Somos un equipo de desarrollo apasionados por la tecnología sostenible.
+    Somos un equipo de desarrollo apasionado por la tecnología sostenible.
     Creemos que los centros de datos pueden ser mucho más eficientes, y que la clave está en medir bien.
   </p>
   <p>
-    ServidorVerde es nuestro proyecto: una aplicación en Java que recoge datos reales de servidores
+    ServidorVerde: Es una aplicación en Java que recoge datos reales de servidores
     y los convierte en información útil para reducir el impacto ambiental.
   </p>
 
   <div class="cards">
     <div class="card">
-      <span>☕</span>
-      <h3>Backend</h3>
-      <p>Java + Spring Boot</p>
-    </div>
-    <div class="card">
       <span>🗄️</span>
       <h3>Base de datos</h3>
-      <p>MySQL relacional</p>
+      <p>MySQL</p>
     </div>
     <div class="card">
       <span>🐍</span>
@@ -234,21 +230,20 @@
 
 <hr class="divider">
 
-<!-- OBJETIVO -->
+<!-- objetivo -->
 <section id="objetivo">
-  <h2>🎯 Objetivo</h2>
+  <h2>Nuestro objetivo</h2>
   <p>
     Los centros de datos consumen muchísima energía. El problema es que muchas veces
     nadie sabe exactamente cuánto ni dónde se desperdicia. ServidorVerde soluciona eso.
   </p>
   <p>
-    Nuestra app asigna una <strong>puntuación de sostenibilidad</strong> a cada servidor según su consumo,
-    temperatura, eficiencia y emisiones de CO₂. Así es fácil detectar cuáles hay que optimizar
-    antes de comprar hardware nuevo (menos residuos, menos gasto).
+    Nuestra app asigna una puntuación de sostenibilidad a cada servidor según su consumo,
+    temperatura, eficiencia y emisiones de CO₂.
   </p>
   <p>
-    Los datos se exportan en CSV para analizarlos con Python y visualizarlos en notebooks.
-    Todo queda documentado en GitHub para que el trabajo sea transparente y trazable.
+    Los datos se exportan en CSV para analizarlos con Python.
+    Todo queda documentado en el repositorio de GitHub para que el trabajo sea transparente y trazable.
   </p>
 
   <div class="cards">
@@ -272,13 +267,14 @@
 
 <hr class="divider">
 
-<!-- DEMO -->
+<!-- demo -->
 <section id="demo">
-  <h2>🖥️ Demo</h2>
+  <h2>Demo</h2>
   <p>Así se vería el panel principal de ServidorVerde con datos de ejemplo:</p>
 
+<!-- caja demo -->
   <div class="demo-box">
-    <h3>📋 Servidores monitorizados</h3>
+    <h3>Servidores monitorizados</h3>
     <table>
       <thead>
         <tr>
@@ -328,7 +324,7 @@
   </div>
 
   <div class="demo-box" style="margin-top: 20px;">
-    <h3>📈 Resumen general</h3>
+    <h3>Resumen general</h3>
     <div class="cards" style="margin-top: 10px;">
       <div class="card">
         <span>🟢</span>
@@ -354,9 +350,9 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- footer -->
 <footer>
-  <p>🌿 ServidorVerde — Proyecto de fin de curso · Java + MySQL + Python</p>
+  <p>ServidorVerde — Proyecto de fin de curso · Java + MySQL + Python</p>
 </footer>
 
 </body>
