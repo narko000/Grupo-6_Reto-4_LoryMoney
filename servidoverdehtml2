@@ -163,7 +163,7 @@
       font-size: 13px;
     }
 
-    .verde { background: #d4edda; color: #1a7a3c; }
+    .verde { background: #d4edda; color: #1a7a3c; } /* Mini uso de IA para ayudarnos a poner bien los colores*/
     .amarillo { background: #fff3cd; color: #856404; }
     .rojo { background: #f8d7da; color: #721c24; }
 
@@ -199,7 +199,7 @@
 
 <!-- quienes somos -->
 <section id="quienes">
-  <h2>👥 Quiénes somos</h2>
+  <h2>Quiénes somos</h2>
   <p>
     Somos un equipo de desarrollo apasionado por la tecnología sostenible.
     Creemos que los centros de datos pueden ser mucho más eficientes, y que la clave está en medir bien.
@@ -216,7 +216,7 @@
       <p>MySQL</p>
     </div>
     <div class="card">
-      <span>🐍</span>
+      <span>🐼</span>
       <h3>Análisis</h3>
       <p>Python + Pandas</p>
     </div>
@@ -343,7 +343,7 @@
       </div>
       <div class="card">
         <span>🌿</span>
-        <h3>1.24 PUE</h3>
+        <h3>1.24 PUE</h3>  <!-- PUE = eficancia de uso de energia -->
         <p>Eficiencia energética</p>
       </div>
     </div>
@@ -352,7 +352,7 @@
 
 <!-- footer -->
 <footer>
-  <p>ServidorVerde — Proyecto de fin de curso · Java + MySQL + Python</p>
+  <p>Contacto: servidorverde@gmail.com</p>
 </footer>
 
 </body>
