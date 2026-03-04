@@ -1,0 +1,100 @@
+CREATE SCHEMA IF NOT EXISTS `mydb2` DEFAULT CHARACTER SET utf8mb4;
+USE `mydb2`;
+
+-- tabla zona --
+CREATE TABLE IF NOT EXISTS `mydb2`.`Zona` (
+  `idZona` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `Descripcion` VARCHAR(200) NULL,
+  PRIMARY KEY (`idZona`)
+) ENGINE = InnoDB;
+
+-- tabla sistema refrigeracion --
+CREATE TABLE IF NOT EXISTS `mydb2`.`SistemaRefrigeracion` (
+  `idSistema_Refrigeracion` INT NOT NULL AUTO_INCREMENT,
+  `idZona` INT NOT NULL,
+  `Eficiencia_Energia` DECIMAL(5,2) NOT NULL,
+  `Capacidad` DECIMAL(6,2) NOT NULL,
+  PRIMARY KEY (`idSistema_Refrigeracion`),
+  FOREIGN KEY (`idZona`)
+    REFERENCES `mydb2`.`Zona` (`idZona`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+-- tabla rack --
+CREATE TABLE IF NOT EXISTS `mydb2`.`Rack` (
+  `idRack` INT NOT NULL AUTO_INCREMENT,
+  `idZona` INT NOT NULL,
+  `Ubicacion` VARCHAR(45) NOT NULL,
+  `Codigo` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idRack`),
+  FOREIGN KEY (`idZona`)
+    REFERENCES `mydb2`.`Zona` (`idZona`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+-- tabla rol --
+CREATE TABLE IF NOT EXISTS `mydb2`.`Rol` (
+  `idRol` INT NOT NULL AUTO_INCREMENT,
+  `NombreRol` VARCHAR(45) NOT NULL,
+  `Descripcion` VARCHAR(200) NULL,
+  PRIMARY KEY (`idRol`)
+) ENGINE = InnoDB;
+
+-- tabla usuario --
+CREATE TABLE IF NOT EXISTS `mydb2`.`Usuario` (
+  `idUsuario` INT NOT NULL AUTO_INCREMENT,
+  `idRol` INT NOT NULL,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(200) NOT NULL UNIQUE,
+  PRIMARY KEY (`idUsuario`),
+  FOREIGN KEY (`idRol`)
+    REFERENCES `mydb2`.`Rol` (`idRol`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+-- tabla servidor --
+CREATE TABLE IF NOT EXISTS `mydb2`.`Servidor` (
+  `idServidor` INT NOT NULL AUTO_INCREMENT,
+  `idRack` INT NOT NULL,
+  `Modelo` VARCHAR(45) NOT NULL,
+  `Estado` ENUM('activo','retirado') NOT NULL DEFAULT 'activo',
+  PRIMARY KEY (`idServidor`),
+  FOREIGN KEY (`idRack`)
+    REFERENCES `mydb2`.`Rack` (`idRack`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+-- tabla registro medicion --
+CREATE TABLE IF NOT EXISTS `mydb2`.`Registro_Medicion` (
+  `idRegistro_Medicion` INT NOT NULL AUTO_INCREMENT,
+  `idServidor` INT NOT NULL,
+  `idUsuario` INT NOT NULL,
+  `Fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Temperatura` DECIMAL(5,2) NOT NULL,
+  `ConsumoEnergetico` DECIMAL(8,2) NOT NULL,
+  `EmisionesCO2` DECIMAL(8,2) NOT NULL,
+  PRIMARY KEY (`idRegistro_Medicion`),
+  FOREIGN KEY (`idServidor`)
+    REFERENCES `mydb2`.`Servidor` (`idServidor`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (`idUsuario`)
+    REFERENCES `mydb2`.`Usuario` (`idUsuario`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+-- optimizacion --
+CREATE INDEX `idx_servidor`
+ON `mydb2`.`Registro_Medicion` (`idServidor`);
+
+CREATE INDEX `idx_fecha`
+ON `mydb2`.`Registro_Medicion` (`Fecha`);
+
+CREATE INDEX `idx_zona_rack`
+ON `mydb2`.`Rack` (`idZona`);
