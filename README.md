@@ -5,6 +5,7 @@ Bases de datos
 - Hemos añadido el modelo conceptual de nuestra empresa, en la que lo azul son las entidades, lo negro los atributos, lo gris el multivaluado, lo verde las claves primarias (PK), lo rosa las relaciones y lo marrón las claves foraneas (FK).
 - Acabo de terminar la base de datos que ya teniamos en el draw.io, guiandome con la base de datos que empezó Alex (lo tiene en su branch).
 - Acabo de terminar la base de datos FINAL, le preguntaremos a German para confirmar aver que tal está, asi que bien.
+- Por ultimo para acabar con la base de datos, aunque haya costado, he metido todos los datos de modoo de ejemplo y está terminada.
 
 HTML 
 - Este es el segundo avance que hemos hecho del HTML
