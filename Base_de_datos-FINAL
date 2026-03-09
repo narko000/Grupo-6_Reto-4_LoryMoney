@@ -9,16 +9,44 @@ CREATE TABLE IF NOT EXISTS `mydb2`.`Zona` (
   PRIMARY KEY (`idZona`)
 ) ENGINE = InnoDB;
 
+-- tabla rol --
+CREATE TABLE IF NOT EXISTS `mydb2`.`Rol` (
+  `idRol` INT NOT NULL AUTO_INCREMENT,
+  `NombreRol` VARCHAR(45) NOT NULL,
+  `Descripcion` VARCHAR(200) NULL,
+  PRIMARY KEY (`idRol`)
+) ENGINE = InnoDB;
+DROP TABLE usuario;
+-- tabla usuario -- DROP TABLE usuario;
+-- va antes q SistemaRefrigeracion porque esta la necesita --
+CREATE TABLE IF NOT EXISTS `mydb2`.`Usuario` (
+  `idUsuario` INT NOT NULL AUTO_INCREMENT,
+  `idRol` INT NOT NULL,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(200) NOT NULL UNIQUE,
+  PRIMARY KEY (`idUsuario`),
+  FOREIGN KEY (`idRol`)
+    REFERENCES `mydb2`.`Rol` (`idRol`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
 -- tabla sistema refrigeracion --
 CREATE TABLE IF NOT EXISTS `mydb2`.`SistemaRefrigeracion` (
   `idSistema_Refrigeracion` INT NOT NULL AUTO_INCREMENT,
   `idZona` INT NOT NULL,
+  `idUsuario` INT NOT NULL,                              -- usuario responsable del sistema
   `Eficiencia_Energia` DECIMAL(5,2) NOT NULL,
   `Capacidad` DECIMAL(6,2) NOT NULL,
+  `ConsumoActual` DECIMAL(8,2) NOT NULL DEFAULT 0.00,   -- dato numerico del consumo actual
   PRIMARY KEY (`idSistema_Refrigeracion`),
   FOREIGN KEY (`idZona`)
     REFERENCES `mydb2`.`Zona` (`idZona`)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (`idUsuario`)                              -- conexion con usuario
+    REFERENCES `mydb2`.`Usuario` (`idUsuario`)
+    ON DELETE RESTRICT
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
@@ -32,27 +60,6 @@ CREATE TABLE IF NOT EXISTS `mydb2`.`Rack` (
   FOREIGN KEY (`idZona`)
     REFERENCES `mydb2`.`Zona` (`idZona`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
-) ENGINE = InnoDB;
-
--- tabla rol --
-CREATE TABLE IF NOT EXISTS `mydb2`.`Rol` (
-  `idRol` INT NOT NULL AUTO_INCREMENT,
-  `NombreRol` VARCHAR(45) NOT NULL,
-  `Descripcion` VARCHAR(200) NULL,
-  PRIMARY KEY (`idRol`)
-) ENGINE = InnoDB;
-
--- tabla usuario --
-CREATE TABLE IF NOT EXISTS `mydb2`.`Usuario` (
-  `idUsuario` INT NOT NULL AUTO_INCREMENT,
-  `idRol` INT NOT NULL,
-  `Nombre` VARCHAR(45) NOT NULL,
-  `Email` VARCHAR(200) NOT NULL UNIQUE,
-  PRIMARY KEY (`idUsuario`),
-  FOREIGN KEY (`idRol`)
-    REFERENCES `mydb2`.`Rol` (`idRol`)
-    ON DELETE RESTRICT
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
@@ -70,14 +77,18 @@ CREATE TABLE IF NOT EXISTS `mydb2`.`Servidor` (
 ) ENGINE = InnoDB;
 
 -- tabla registro medicion --
+-- conectada a: usuario, servidor y sistema de refrigeracion --
 CREATE TABLE IF NOT EXISTS `mydb2`.`Registro_Medicion` (
   `idRegistro_Medicion` INT NOT NULL AUTO_INCREMENT,
   `idServidor` INT NOT NULL,
   `idUsuario` INT NOT NULL,
+  `idSistema_Refrigeracion` INT NOT NULL,               -- conexion con sistema refrigeracion
   `Fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Temperatura` DECIMAL(5,2) NOT NULL,
   `ConsumoEnergetico` DECIMAL(8,2) NOT NULL,
   `EmisionesCO2` DECIMAL(8,2) NOT NULL,
+  `TipoMedicion` VARCHAR(45) NOT NULL,                  -- que medimos: ej 'consumo energia'
+  `UnidadMedicion` ENUM('porcentaje','letra','kW','celsius') NOT NULL, -- como lo medimos
   PRIMARY KEY (`idRegistro_Medicion`),
   FOREIGN KEY (`idServidor`)
     REFERENCES `mydb2`.`Servidor` (`idServidor`)
@@ -86,15 +97,108 @@ CREATE TABLE IF NOT EXISTS `mydb2`.`Registro_Medicion` (
   FOREIGN KEY (`idUsuario`)
     REFERENCES `mydb2`.`Usuario` (`idUsuario`)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (`idSistema_Refrigeracion`)               -- nueva conexion
+    REFERENCES `mydb2`.`SistemaRefrigeracion` (`idSistema_Refrigeracion`)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE = InnoDB;
-
+DROP TABLE alumnos;
 -- optimizacion --
 CREATE INDEX `idx_servidor`
 ON `mydb2`.`Registro_Medicion` (`idServidor`);
-
 CREATE INDEX `idx_fecha`
 ON `mydb2`.`Registro_Medicion` (`Fecha`);
-
 CREATE INDEX `idx_zona_rack`
 ON `mydb2`.`Rack` (`idZona`);
+CREATE INDEX `idx_sistema`
+ON `mydb2`.`Registro_Medicion` (`idSistema_Refrigeracion`);
+
+USE mydb2;
+
+-- zonas datos --
+INSERT INTO Zona (Nombre, Descripcion) VALUES
+('Zona Norte','Servidores de alto rendimiento'),
+('Zona Sur','Servidores de respaldo'),
+('Zona Este','Zona de almacenamiento'),
+('Zona Oeste','Zona de pruebas');
+
+-- roles rdatos --
+INSERT INTO Rol (NombreRol, Descripcion) VALUES
+('Administrador','Gestion completa del sistema'),
+('Tecnico','Mantenimiento de servidores'),
+('Analista','Analisis energetico');
+
+-- usuarios datos --
+INSERT INTO Usuario (idRol, Nombre, Email) VALUES
+(1,'Carlos Martinez','carlos@cebanc.com'),
+(2,'Laura Gomez','laura@gmail.com'),
+(2,'Ander Etxeberria','ander@realmadrid.com'),
+(3,'Mikel Arrieta','mikel@hotmail.com');
+
+-- sistemas de refrigeracion datos --
+INSERT INTO sistemarefrigeracion (idZona,idUsuario,Eficiencia_Energia,Capacidad,ConsumoActual) VALUES
+(1,2,85.50,120.00,45.30),
+(2,2,80.20,100.00,50.10),
+(3,3,90.00,150.00,40.00),
+(4,3,78.40,110.00,60.50);
+
+-- racks datos ejemplos con las ubicaciones porque no sabiamos que poner --
+INSERT INTO Rack (idZona,Ubicacion,Codigo) VALUES
+(1,'Fila A','RACK-A1'),
+(1,'Fila B','RACK-A2'),
+(2,'Fila C','RACK-B1'),
+(3,'Fila D','RACK-C1'),
+(4,'Fila E','RACK-D1');
+
+-- servidores -- 
+INSERT INTO Servidor (idRack,Modelo,Estado) VALUES
+(1,'Dell PowerEdge R740','activo'),
+(1,'HP ProLiant DL380','activo'),
+(2,'Dell PowerEdge R650','activo'),
+(3,'Lenovo ThinkSystem SR650','activo'),
+(3,'HP ProLiant DL360','activo'),
+(4,'Dell PowerEdge R730','activo'),
+(5,'Cisco UCS C220','activo'),
+(5,'Supermicro X11','retirado');
+
+-- registros de medicion -- 
+INSERT INTO Registro_Medicion
+(idServidor,idUsuario,idSistema_Refrigeracion,Fecha,Temperatura,ConsumoEnergetico,EmisionesCO2,TipoMedicion,UnidadMedicion)
+VALUES
+(1,4,1,'2024-11-01 10:00:00',60.5,420.5,180.3,'consumo energia','kW'),
+(2,4,1,'2025-03-01 10:05:00',65.2,450.8,200.1,'consumo energia','kW'),
+(3,4,1,'2025-04-28 10:10:00',70.1,500.4,220.5,'consumo energia','kW'),
+(4,4,2,'2026-02-01 10:15:00',75.3,620.7,260.2,'consumo energia','kW'),
+(5,4,2,'2025-03-29 10:20:00',68.0,540.9,240.6,'consumo energia','kW'),
+(6,4,3,'2025-03-01 10:25:00',55.4,380.2,150.4,'consumo energia','kW'),
+(7,4,4,'2025-03-01 10:30:00',80.0,700.1,300.9,'consumo energia','kW'),
+(1,4,1,'2025-05-30 11:00:00',62.3,430.4,185.6,'consumo energia','kW'),
+(2,4,1,'2025-12-21 11:05:00',66.0,460.2,205.1,'consumo energia','kW'),
+(3,4,1,'2025-03-01 11:10:00',72.5,520.0,230.8,'consumo energia','kW');
+
+DESCRIBE SistemaRefrigeracion;
+INSERT INTO SistemaRefrigeracion (idZona,Eficiencia_Energia,Capacidad,ConsumoActual) VALUES
+(1,85.50,120.00,45.30),
+(2,80.20,100.00,50.10),
+(3,90.00,150.00,40.00),
+(4,78.40,110.00,60.50);
+
+ALTER TABLE SistemaRefrigeracion
+ADD COLUMN idUsuario INT NOT NULL;
+ALTER TABLE Registro_Medicion
+ADD COLUMN idSistema_Refrigeracion INT NOT NULL;
+ALTER TABLE Registro_Medicion
+ADD COLUMN TipoMedicion VARCHAR(45) NOT NULL;
+ALTER TABLE Registro_Medicion
+ADD COLUMN UnidadMedicion VARCHAR(45) NOT NULL;
+ALTER TABLE SistemaRefrigeracion
+ADD COLUMN ConsumoActual DECIMAL(8,2) NOT NULL DEFAULT 0.00;
+
+SELECT*FROM zona;
+DELETE FROM Usuario
+WHERE Email LIKE '%@datacenter.com';
+truncate usuario;
+DELETE FROM Usuario
+ORDER BY Usuario ASC
+LIMIT 4;
