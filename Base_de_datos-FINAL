@@ -195,10 +195,24 @@ ADD COLUMN UnidadMedicion VARCHAR(45) NOT NULL;
 ALTER TABLE SistemaRefrigeracion
 ADD COLUMN ConsumoActual DECIMAL(8,2) NOT NULL DEFAULT 0.00;
 
-SELECT*FROM zona;
+USE mydb2;
+SELECT*FROM usuario;
 DELETE FROM Usuario
 WHERE Email LIKE '%@datacenter.com';
 truncate usuario;
 DELETE FROM Usuario
+
 ORDER BY Usuario ASC
 LIMIT 4;
+UPDATE usuario
+set Nombre = 'Laura Gomez', Email = 'vbhjkl'
+WHERE idUsuario = 5;
+
+
+-- consulta JOIN --
+
+SELECT 
+r.idRack,
+s.idServidor
+FROM Rack r 
+JOIN servidor s ON r.idRack = s.idRack;
