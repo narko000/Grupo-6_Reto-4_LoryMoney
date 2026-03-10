@@ -6,7 +6,7 @@ Bases de datos
 - Acabo de terminar la base de datos que ya teniamos en el draw.io, guiandome con la base de datos que empezó Alex (lo tiene en su branch).
 - Acabo de terminar la base de datos FINAL, le preguntaremos a German para confirmar aver que tal está, asi que bien.
 - Por ultimo para acabar con la base de datos, aunque haya costado, he metido todos los datos de modoo de ejemplo y está terminada.
-- Hemos terminado con Bases de datos, nos faltaba poner unas consultas que nos pedía la rúbrica por ejemplo los JOIN.
+- Hemos terminado con Bases de datos, nos faltaba poner unas consultas que nos pedía la rúbrica por ejemplo los JOIN, estas consultas las tenemos ordenadas, por apartados, de mas dificil a más facil. 
 
 HTML 
 - Este es el segundo avance que hemos hecho del HTML.
