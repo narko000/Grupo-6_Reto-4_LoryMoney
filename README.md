@@ -8,5 +8,7 @@ Bases de datos
 - Por ultimo para acabar con la base de datos, aunque haya costado, he metido todos los datos de modoo de ejemplo y está terminada.
 
 HTML 
-- Este es el segundo avance que hemos hecho del HTML
+- Este es el segundo avance que hemos hecho del HTML.
 
+Eclipse
+- Esta es la versión principal de nuestro eclipse, en el que falta el login.
