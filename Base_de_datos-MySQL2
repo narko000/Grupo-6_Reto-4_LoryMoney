@@ -1,0 +1,144 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema reto4
+-- -----------------------------------------------------
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Sistema Refrigeracion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Sistema Refrigeracion` (
+  `idSistemaRefri` INT NOT NULL,
+  `idZona` VARCHAR(45) NOT NULL,
+  `EficenciaEnergia` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idSistemaRefri`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Zona`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Zona` (
+  `idZona` INT NOT NULL,
+  `Nombre` VARCHAR(45) NULL,
+  `Zonacol` VARCHAR(45) NULL,
+  PRIMARY KEY (`idZona`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Rack`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Rack` (
+  `idRack` INT NOT NULL,
+  `idZona` VARCHAR(45) NOT NULL,
+  `Ubicación` VARCHAR(45) NOT NULL,
+  `Código` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idRack`))
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+USE `mydb`;
+-- corregimos las tablas existentes --
+
+DROP TABLE IF EXISTS `mydb`.`Rack`;
+DROP TABLE IF EXISTS `mydb`.`Sistema Refrigeracion`;
+DROP TABLE IF EXISTS `mydb`.`Zona`;
+
+-- tabla zona --
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Zona`(
+`idZona`	INT	NOT NULL AUTO_INCREMENT,
+`Nombre`	VARCHAR(45) NOT NULL,
+`Descripcion`	VARCHAR(200) NULL,
+PRIMARY KEY (`idZona`)
+) ENGINE = InnoDB; 
+
+-- TABLA SISTEMA_REFRIGERACION -- 
+CREATE TABLE IF NOT EXISTS `mydb`.`SistemaRefrigeracion` (
+`idSistema_Refrigeracion`	INT NOT NULL AUTO_INCREMENT,
+`idZona`	INT NOT NULL,
+`Eficiencia_Energia`	VARCHAR(45) NOT NULL,
+`Capacidad`	VARCHAR(45) NOT NULL,
+PRIMARY KEY (`idSistema_Refrigeracion`),
+FOREIGN KEY (`idZona`)
+REFERENCES `mydb`.`Zona` (`idZona`)
+) ENGINE = InnoDB;
+
+-- tabla rack -- 
+CREATE TABLE IF NOT EXISTS `mydb`.`Rack` (
+`idRack`	INT	NOT NULL AUTO_INCREMENT,
+`idZona`	INT NOT NULL,
+`Ubicacion` VARCHAR(45)	NOT NULL,
+`Codigo`	VARCHAR(45) NOT NULL,
+PRIMARY KEY (`idRack`),
+FOREIGN KEY (`idZona`)
+REFERENCES `mydb`.`Zona` (`idZona`)
+) ENGINE = InnoDB;
+-- tabla rol --
+CREATE TABLE IF NOT EXISTS `mydb`.`Rol` (
+`idRol`	INT NOT NULL AUTO_INCREMENT,
+`NombreRol` VARCHAR (45) NOT NULL,
+`Descripcion` VARCHAR (200) NULL,
+PRIMARY KEY (`idRol`)
+) ENGINE = InnoDB;
+
+-- tabla usuario --
+CREATE TABLE IF NOT EXISTS `mydb`.`Usuario` (
+`idUsuario`	INT NOT NULL AUTO_INCREMENT,
+`idRol` INT NOT NULL,
+`Nombre`	VARCHAR(45) NOT NULL,
+`Email`	VARCHAR(200) NOT NULL,
+PRIMARY KEY (`idUsuario`),
+FOREIGN KEY (`idRol`)
+REFERENCES `mydb`.`Rol` (`idRol`)
+) ENGINE = InnoDb;
+
+-- tabla servidor --
+CREATE TABLE IF NOT EXISTS `mydb`.`Servidor` (
+`idServidor`	INT NOT NULL AUTO_INCREMENT,
+`idRack` INT NOT NULL,
+`Modelo` VARCHAR(45) NOT NULL,
+`Estado`     ENUM('activo', 'retirado') NOT NULL DEFAULT 'activo',
+PRIMARY KEY (`idServidor`),
+FOREIGN KEY (`idRack`)
+REFERENCES `mydb`.`Rack` (`idRack`)
+) ENGINE = InnoDB;
+
+-- tabla registro medicion --
+CREATE TABLE IF NOT EXISTS `mydb`.`Registro_Medicion` (
+`idRegistro_Medicion`	INT NOT NULL AUTO_INCREMENT,
+`idServidor` INT NOT NULL,
+`idUsuario` INT NOT NULL,
+`Fecha` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`Temperatura`	DECIMAL(5,2) NOT NULL,
+PRIMARY KEY (`idRegistro_Medicion`),
+FOREIGN KEY (`idServidor`)
+REFERENCES `mydb`.`Servidor` (`idServidor`),
+FOREIGN KEY (`idUsuario`)
+REFERENCES `mydb`.`Usuario` (`idUsuario`)
+) ENGINE = InnoDB
+
+
+
+
+
+
+
