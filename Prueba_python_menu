@@ -1,0 +1,67 @@
+import csv
+
+zonas = {
+    "Zona Norte":  {"puntuacion": 87, "emisiones": 120.5, "renovable": 72, "reciclado": 65},
+    "Zona Sur":    {"puntuacion": 54, "emisiones": 310.8, "renovable": 30, "reciclado": 40},
+    "Zona Este":   {"puntuacion": 76, "emisiones": 185.3, "renovable": 55, "reciclado": 58},
+    "Zona Oeste":  {"puntuacion": 91, "emisiones": 95.0,  "renovable": 85, "reciclado": 80},
+    "Zona Centro": {"puntuacion": 63, "emisiones": 240.1, "renovable": 42, "reciclado": 50},
+}
+
+def ver_puntuacion():
+    print("\n--- Puntuacion de sostenibilidad ---")
+    for zona, datos in zonas.items():
+        p = datos["puntuacion"]
+        if p >= 75:
+            estado = "Excelente"
+        elif p >= 50:
+            estado = "Regular"
+        else:
+            estado = "Critico"
+        print(f"{zona}: {p}/100 - {estado}")
+
+def ver_ranking():
+    print("\n--- Ranking de zonas ---")
+    ranking = sorted(zonas.items(), key=lambda x: x[1]["puntuacion"], reverse=True)
+    for i, (zona, datos) in enumerate(ranking, 1):
+        print(f"{i}. {zona} - {datos['puntuacion']}/100")
+
+def calcular_emisiones():
+    print("\n--- Emisiones por zona ---")
+    for zona, datos in zonas.items():
+        print(f"{zona}: {datos['emisiones']} ton/anio")
+    total = sum(d["emisiones"] for d in zonas.values())
+    print(f"\nTotal: {total} ton/anio")
+
+def exportar_csv():
+    nombre = "sostenibilidad.csv"
+    with open(nombre, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Zona", "Puntuacion", "Emisiones", "Renovable", "Reciclado"])
+        for zona, datos in zonas.items():
+            writer.writerow([zona, datos["puntuacion"], datos["emisiones"], datos["renovable"], datos["reciclado"]])
+    print(f"\nArchivo guardado como {nombre}")
+
+while True:
+    print("\n=== Menu Sostenibilidad ===")
+    print("1. Ver puntuacion de sostenibilidad")
+    print("2. Ver ranking de zonas")
+    print("3. Calcular emisiones")
+    print("4. Exportar a CSV")
+    print("0. Salir")
+
+    opcion = input("\nElige una opcion: ")
+
+    if opcion == "1":
+        ver_puntuacion()
+    elif opcion == "2":
+        ver_ranking()
+    elif opcion == "3":
+        calcular_emisiones()
+    elif opcion == "4":
+        exportar_csv()
+    elif opcion == "0":
+        print("Hasta luego")
+        break
+    else:
+        print("Opcion no valida")
