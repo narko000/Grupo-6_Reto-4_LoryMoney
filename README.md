@@ -16,4 +16,4 @@ Eclipse
 
 Lenguaje de marcas
 
-- Hemos hecho el analisis de datos mediante colab.
+- Hemos hecho el analisis de datos mediante colab. Pequeño uso de IA en la parte de querer sacar justo ese tipo de grafica, pero todo lo demas por nosotros.
