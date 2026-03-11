@@ -1,6 +1,14 @@
 # Grupo-6_Reto-4_LoryMoney
 Reto 4 repositorio
 
+
+Python: Hemos hecho el menu grafico de como se veria mas o menos en la propuesta final.
+
+JAVA: He hecho una prueba de como se veria en java el estado de los servidores y si es mejorable o no.
+
+BASES: He hecho la primera parte de la bases de datos, la continuará haciendo marko de momento.
+
+JAVA: Hemos hecho el programa de java
 Bases de datos
 - Hemos añadido el modelo conceptual de nuestra empresa, en la que lo azul son las entidades, lo negro los atributos, lo gris el multivaluado, lo verde las claves primarias (PK), lo rosa las relaciones y lo marrón las claves foraneas (FK).
 - Acabo de terminar la base de datos que ya teniamos en el draw.io, guiandome con la base de datos que empezó Alex (lo tiene en su branch).
