@@ -7,3 +7,5 @@ Python: Hemos hecho el menu grafico de como se veria mas o menos en la propuesta
 He hecho una prueba de como se veria en java el estado de los servidores y si es mejorable o no.
 
 He hecho la primera parte de la bases de datos, la continuará haciendo marko de momento.
+
+Hemos hecho el programa de java
